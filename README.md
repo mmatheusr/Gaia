@@ -1,5 +1,5 @@
 # Gaia
-    Um Assistente Virtual feito em Python
+    Um Assistente Virtual feito em Python;
 
 Foco:
     Facil Aprendizado;
