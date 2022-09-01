@@ -20,7 +20,7 @@ for command in data['commands']:
 
 max_seq = max([len(bytes(x.encode('utf-8'))) for x in inputs])
 
-print('Maior seq:', max_seq)
+#print('Maior seq:', max_seq)
 
 # Criar dataset one-hot (número de examplos, tamanho da seq, num caracteres)
 # Criar dataset disperso (número de examplos, tamanho da seq)
