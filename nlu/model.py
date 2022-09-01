@@ -16,11 +16,9 @@ for command in data['commands']:
 
 # Processar texto: palavras, caracteres, bytes, sub-palavras
 
-# Mapear char-idx
-
 max_seq = max([len(bytes(x.encode('utf-8'))) for x in inputs])
 
-#print('Maior seq:', max_seq)
+print('Maior seq:', max_seq)
 
 # Criar dataset one-hot (número de examplos, tamanho da seq, num caracteres)
 # Criar dataset disperso (número de examplos, tamanho da seq)
@@ -33,18 +31,19 @@ for i, inp in enumerate(inputs):
         input_data[i, k, int(ch)] = 1.0
 
 
-
 # Input data sparse
 '''
 input_data = np.zeros((len(inputs), max_seq), dtype='int32')
-
 for i, input in enumerate(inputs):
     for k, ch in enumerate(input):
         input_data[i, k] = chr2idx[ch]
 '''
+
 # Output Data
 
 labels = set(outputs)
+
+fwrite = open('labels.txt', 'w', encoding='utf-8')
 
 label2idx = {}
 idx2label = {}
@@ -52,6 +51,8 @@ idx2label = {}
 for k, label in enumerate(labels):
     label2idx[label] = k
     idx2label[k] = label
+    fwrite.write(label + '\n')
+fwrite.close()
 
 output_data = []
 
@@ -71,6 +72,9 @@ model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['acc']
 
 model.fit(input_data, output_data, epochs=128)
 
+# Salvar model
+model.save('model.h5')
+
 # Classificar texto em um entidade
 def classify(text):
     # Criar um array de entrada
@@ -84,7 +88,3 @@ def classify(text):
     out = model.predict(x)
     idx = out.argmax()
     print(idx2label[idx])
-
-while True:
-    text = input('Digite algo: ')
-    classify(text)
